@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "module": "commonjs",
+    "module": "CommonJS",
     "outDir": "./lib",
     "noImplicitAny": true,
     "removeComments": true,

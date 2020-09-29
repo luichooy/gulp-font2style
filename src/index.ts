@@ -1,8 +1,8 @@
 import { Options } from './types'
-import { getFontFamily, getFontStyle, getFontWeight, getSrc } from './util'
 const path = require('path')
 const through2 = require('through2')
 const PluginError = require('plugin-error')
+const { getFontFamily, getFontStyle, getFontWeight, getSrc } = require('./util')
 
 /**
  * Convert fonts to stylesheet using Gulp.
@@ -18,7 +18,7 @@ const DEFAULT_OPTS: Options = {
 }
 
 function font2style(opts: Options) {
-  const options = { ...DEFAULT_OPTS, ...opts }
+  const options: Options = Object.assign({}, DEFAULT_OPTS, opts)
   return through2.obj(function (file: any, enc: string, callback: Function) {
     if (file.isNull()) {
       this.push(file)
@@ -37,8 +37,6 @@ function font2style(opts: Options) {
     }
 
     if (file.isBuffer()) {
-      console.log('path', file.path)
-
       // extract the value of 'font-family' from file name by default
       if (!options.fontFamily) {
         options.fontFamily = path.basename(file.path, path.extname(file.path))
@@ -61,4 +59,4 @@ function font2style(opts: Options) {
   })
 }
 
-export default font2style
+module.exports = font2style

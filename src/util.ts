@@ -1,15 +1,15 @@
 import { FontStyle, FontWeight } from './types'
 const mime = require('mime')
 
-export function getFontFamily(fontFamily: string) {
+exports.getFontFamily = function getFontFamily(fontFamily: string) {
   return `font-family:"${fontFamily}";`
 }
 
-export function getFontWeight(fontWeight: FontWeight) {
+exports.getFontWeight = function getFontWeight(fontWeight: FontWeight) {
   return `font-weight:${fontWeight};`
 }
 
-export function getFontStyle(fontStyle: FontStyle) {
+exports.getFontStyle = function getFontStyle(fontStyle: FontStyle) {
   return `font-style:${fontStyle};`
 }
 
@@ -18,7 +18,7 @@ export function getFontStyle(fontStyle: FontStyle) {
  * @param  {object} file File object.
  * @return {string}     Base64-encoded contents inside a `data:` URL.
  */
-export function getSrc(file: any) {
+exports.getSrc = function getSrc(file: any) {
   const encodedContents = Buffer.from(file.contents).toString('base64')
   return `src:url(data:${mime.getType(file.path)};charset=utf-8;base64,${encodedContents});`
 }

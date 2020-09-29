@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rm -rf ./lib/",
     "build": "npm run clean && tsc",
-    "test": "echo \"Error: no test specified\"",
+    "test": "nyc ava && npm run report",
+    "report": "nyc report --reporter=html",
     "lint": "eslint --fix",
     "prepublishOnly": "npm run test && npm run build",
     "c": "cz"
@@ -42,7 +43,9 @@
     "@commitlint/config-conventional": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^4.3.0",
+    "ava": "^3.13.0",
     "commitizen": "^4.2.1",
+    "css": "^3.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
@@ -53,8 +56,10 @@
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
+    "nyc": "^15.1.0",
     "prettier": "^2.1.2",
-    "typescript": "^4.0.3"
+    "typescript": "^4.0.3",
+    "vinyl": "^2.2.1"
   },
   "husky": {
     "hooks": {
