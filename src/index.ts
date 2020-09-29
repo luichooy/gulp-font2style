@@ -1,9 +1,64 @@
-interface PrintFn {
-  (msg: string): void
+import { Options } from './types'
+import { getFontFamily, getFontStyle, getFontWeight, getSrc } from './util'
+const path = require('path')
+const through2 = require('through2')
+const PluginError = require('plugin-error')
+
+/**
+ * Convert fonts to stylesheet using Gulp.
+ *
+ * Encodes font files in Base64 inside a CSS `@font-face` rule.
+ *
+ */
+
+const DEFAULT_OPTS: Options = {
+  extname: '.css',
+  fontWeight: 'normal',
+  fontStyle: 'normal',
 }
 
-const greet: PrintFn = (msg: string) => {
-  console.log(msg)
+function font2style(opts: Options) {
+  const options = { ...DEFAULT_OPTS, ...opts }
+  return through2.obj(function (file: any, enc: string, callback: Function) {
+    if (file.isNull()) {
+      this.push(file)
+      return callback()
+    }
+
+    if (file.isStream()) {
+      this.emit(
+        'error',
+        new PluginError({
+          plugin: 'gulp-font2style',
+          message: 'Streaming is not supported',
+        }),
+      )
+      return callback()
+    }
+
+    if (file.isBuffer()) {
+      console.log('path', file.path)
+
+      // extract the value of 'font-family' from file name by default
+      if (!options.fontFamily) {
+        options.fontFamily = path.basename(file.path, path.extname(file.path))
+      }
+
+      const attributes = [
+        getFontFamily(options.fontFamily),
+        getFontWeight(options.fontWeight),
+        getFontStyle(options.fontStyle),
+        getSrc(file),
+      ]
+
+      const contents: string = `@font-face{${attributes.join('')}}`
+
+      file.contents = Buffer.from(contents)
+      file.extname = options.extname
+
+      return callback(null, file)
+    }
+  })
 }
 
-greet('hello ts')
+export default font2style
