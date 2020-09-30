@@ -1,1 +1,6 @@
 test
+.nyc_output
+coverage
+.eslintignore
+.eslintrc.js
+.prettierrc.json
