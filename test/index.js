@@ -1,12 +1,12 @@
-const fs = require('fs')
-const path = require('path')
-const test = require('ava')
-const font2style = require('../lib')
-const { createFile, getProperty } = require('./_helper')
+import test from 'ava'
+import path from 'path'
+import fs from 'fs'
+
+import font2style from '../lib'
+import { createFile, getProperty } from './helpers'
 
 const inputPath = path.join(__dirname, './fixtures/testfont.woff')
 const expectedPath = path.join(__dirname, '/fixtures/testfont.css')
-// TESTS
 
 test.cb('encodes font files to CSS', t => {
   const input = fs.readFileSync(inputPath, 'utf8')
