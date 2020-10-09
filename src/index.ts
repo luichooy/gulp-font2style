@@ -12,7 +12,6 @@ import { Options } from './types'
  */
 
 const DEFAULT_OPTS: Options = {
-  extname: '.css',
   fontWeight: 'normal',
   fontStyle: 'normal',
 }
@@ -39,8 +38,12 @@ function font2style(opts: Options = {}) {
 
     if (file.isBuffer()) {
       // extract the value of 'font-family' from file name by default
-      if (!options.fontFamily) {
-        options.fontFamily = path.basename(file.path, path.extname(file.path))
+      if (!options.basename) {
+        options.basename = path.basename(file.path)
+
+        if (!options.fontFamily) {
+          options.fontFamily = path.basename(file.path, path.extname(file.path))
+        }
       }
 
       const attributes = [
@@ -53,7 +56,7 @@ function font2style(opts: Options = {}) {
       const contents: string = `@font-face{${attributes.join('')}}`
 
       file.contents = Buffer.from(contents)
-      file.extname = options.extname
+      file.basename = options.basename
 
       return callback(null, file)
     }

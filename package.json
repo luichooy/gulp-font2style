@@ -1,6 +1,6 @@
 {
   "name": "gulp-font2style",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0-beta",
   "description": "Encode font files as stylesheet using Gulp.",
   "main": "lib/index.js",
   "scripts": {
